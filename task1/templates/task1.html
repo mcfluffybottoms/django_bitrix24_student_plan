@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Привет!</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <section class="layout" align="center">
+        <h1 class="title-text">Привет, {{ username }}!</h1>
+        <form method="get" action="{% url 'task1:top_task1' %}">
+            <button class="button" type="submit">Топ-10 список сделок!</button>
+        </form>
+    </section>
+    <div class="footer">
+        <p>К началу!</p>
+        <form method="get" action="{% url 'returnstart'%}">
+            <button class="button" type="submit">Назад</button>
+        </form>
+    </div>
+</body>
+
+</html>

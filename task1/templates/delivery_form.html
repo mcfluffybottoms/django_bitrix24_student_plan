@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Добавь доставку!</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <h1 class="title-text">ДОБАВЬ ДОСТАВКУ!</h1>
+  <section class="layout" align="center">
+    <div class="quote-space">
+      <hr class="add-form-container">
+      <form action="{% url 'task1:add_delivery' %}" method="post" class="add-form">
+        {% csrf_token %}
+        {{ form }}
+        <button class="form-button" type="submit">Добавить!</button>
+      </form>
+    </div>
+  </section>
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+</body>
+
+</html>

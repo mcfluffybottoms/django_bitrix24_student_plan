@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Топ</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <h1 class="title-text">Топ 10 сделок!</h1>
+    <table class="top-table" border="1">
+        <tr>
+            <td>ID</td>
+            <td>НАЗВАНИЕ</td>
+            <td>CТАДИЯ СДЕЛКИ</td>
+            <td>СУММА</td>
+            <td>ТИП ТОВАРА</td>
+            <td>ВЕС ТОВАРА</td>
+        </tr>
+        {% for deal in deals %}
+        <tr>
+            <td>{{ deal.ID }}</td>
+            <td>{{ deal.TITLE }}</td>
+            <td>{{ deal.STAGE_ID }}</td>
+            <td>{{ deal.OPPORTUNITY }}</td>
+            <td>{{ deal.UF_CRM_CARGO_WEIGHT }}</td>
+            <td>{{ deal.UF_CRM_CARGO_TYPE }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form method="get" action="{% url 'task1:add_delivery' %}">
+        <button class="button" type="submit">Добавить сделку!</button>
+    </form>
+    <form method="get" action="{% url 'task1:start_task1' %}">
+        <button class="button" type="submit">На главную!</button>
+    </form>
+
+    <div class="footer">
+        <p>К началу!</p>
+        <form method="get" action="{% url 'returnstart'%}">
+            <button class="button" type="submit">Назад</button>
+        </form>
+    </div>
+</body>
+
+</html>

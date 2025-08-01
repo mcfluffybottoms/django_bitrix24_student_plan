@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Покажи задание...</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <section class="layout" align="center">
+        <h1 class="title-text">Хочу увидеть задание...</h1>
+        <form method="get" action="{% url 'task1:start_task1' %}">
+            <button class="button" type="submit">1</button>
+        </form>
+    </section>
+</body>
+
+</html>

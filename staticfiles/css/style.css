@@ -1,0 +1,145 @@
+body {
+    background-color: #FFFFFF;
+    font-family: Verdana, Helvetica, Sans-serif;
+    height: 100%;
+    margin: 100px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    vertical-align: middle;
+}
+
+.layout {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 1fr;
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+}
+
+.title-text {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.quote-space {
+    text-align: center;
+}
+
+h1.quote-space {
+  font-style: italic;
+}
+
+.interactions {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: 1;
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+}
+
+.reaction-button {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.interactions {
+    text-align: center;
+    display: flex;
+    gap: 60px;
+    justify-content: space-evenly;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    margin: 10px;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-evenly;
+}
+
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.top-table th {
+    background-color: #f2f2f2;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.top-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.top-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #FFFFFF;
+    text-decoration: none;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: black;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-form-container {
+    width="100%"
+    color="black"
+    size="2"
+    gap: 8px;
+}
+
+.add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-button {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #FFFFFF;
+    text-decoration: none;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    text-align: center;
+}
+
+.form-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
