@@ -74,9 +74,9 @@ class Delivery():
                 "USER_TYPE_ID": "enumeration",
                 "FIELD_NAME": "CARGO_TYPE",
                 "LIST": [
-                    {"VALUE": "NORMAL", "SORT" : 0, "DEF" : "Y"},
-                    {"VALUE": "FRAGILE", "SORT": 1, "DEF": "N"},
-                    {"VALUE": "HAZARDOUS", "SORT": 2, "DEF": "N"},
+                    {"VALUE": "NORMAL", "SORT" : 1, "DEF" : "Y"},
+                    {"VALUE": "FRAGILE", "SORT": 2, "DEF": "N"},
+                    {"VALUE": "HAZARDOUS", "SORT": 3, "DEF": "N"},
                 ]
             }
             field_cargo_weight = {
