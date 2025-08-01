@@ -16,17 +16,25 @@
             <td>НАЗВАНИЕ</td>
             <td>CТАДИЯ СДЕЛКИ</td>
             <td>СУММА</td>
-            <td>ТИП ТОВАРА</td>
             <td>ВЕС ТОВАРА</td>
+            <td>ТИП ДОСТАВКИ</td>
         </tr>
         {% for deal in deals %}
         <tr>
-            <td>{{ deal.ID }}</td>
+            <td>{{ forloop.counter }}</td>
             <td>{{ deal.TITLE }}</td>
             <td>{{ deal.STAGE_ID }}</td>
             <td>{{ deal.OPPORTUNITY }}</td>
             <td>{{ deal.UF_CRM_CARGO_WEIGHT }}</td>
-            <td>{{ deal.UF_CRM_CARGO_TYPE }}</td>
+            {% if deal.UF_CRM_CARGO_TYPE == "1" %}
+              <td>Обычный</td>
+            {% elif deal.UF_CRM_CARGO_TYPE == "2" %}
+              <td>Хрупкий</td>
+            {% elif deal.UF_CRM_CARGO_TYPE == "3" %}
+              <td>Опасный</td>
+            {% else %}
+              <td>Не указано</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

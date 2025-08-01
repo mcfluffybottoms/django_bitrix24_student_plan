@@ -110,7 +110,7 @@ class Delivery():
                 },
                "total": 10,
            }
-        )['result']
+        )['result'][:10]
 
     @classmethod
     def add_delivery(cls, but, deliveryForm):
