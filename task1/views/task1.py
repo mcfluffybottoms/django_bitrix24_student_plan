@@ -8,9 +8,8 @@ from task1.models.models import Delivery, DeliveryForm
 
 @main_auth(on_cookies=True)
 def start_task1(request):
-    but = request.bitrix_user_token
-    username = request.bitrix_user_token.user.first_name + " " + request.bitrix_user_token.user.last_name;
-    app_settings = settings.APP_SETTINGS
+    but = request.bitrix_user_token.user
+    username = but.first_name + " " + but.last_name;
     return render(request, 'task1.html', {"username": username})
 
 @main_auth(on_cookies=True)
