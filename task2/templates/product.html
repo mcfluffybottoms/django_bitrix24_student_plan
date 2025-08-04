@@ -9,25 +9,27 @@
 </head>
 
 <body>
-<div class="img-layout">
-    <h2 align="center">{{ product.NAME }}</h2>
-    <div class="img-layout" align="center">
+<section class="img-layout">
+    <div class="publication-date">
+        <h2>{{ product.NAME }}</h2>
+    </div>
+    <div class="product-img">
         {% if IMG %}
-        <img width="300px" class="product-image"
+        <img class="product-image"
              src="{% url 'task2:proxy_image' %}?url={{ IMG|urlencode }}"
-             alt="{{ product.NAME }}"
+             alt=""
              crossorigin="anonymous"/>
         {% else %}
-        <img width="300px" class="product-image"
+        <img class="product-image"
              src="{% static 'IMGNOTFOUND.png' %}"
-             alt="{{ product.NAME }}"
+             alt=""
              crossorigin="anonymous"/>
         {% endif %}
     </div>
-    <div align="center" class="publication-date">
+    <div class="publication-date">
         Дата публикации: {{ product.DATE_CREATE }}
     </div>
-</div>
+</section>
 </body>
 
 </html>
