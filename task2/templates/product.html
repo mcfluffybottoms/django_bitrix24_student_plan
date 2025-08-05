@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Товар</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<section class="img-layout">
+    <div class="publication-date">
+        <h2>{{ product.NAME }}</h2>
+    </div>
+    <div class="product-img">
+        {% if IMG %}
+        <img class="product-image"
+             src="{% url 'task2:proxy_image' %}?url={{ IMG|urlencode }}"
+             alt=""
+             crossorigin="anonymous"/>
+        {% else %}
+        <img class="product-image"
+             src="{% static 'IMGNOTFOUND.png' %}"
+             alt=""
+             crossorigin="anonymous"/>
+        {% endif %}
+    </div>
+    <div class="publication-date">
+        Дата публикации: {{ product.DATE_CREATE }}
+    </div>
+</section>
+</body>
+
+</html>

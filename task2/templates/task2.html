@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load qr_code %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Привет!</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<section class="layout" align="center">
+    <h1 class="title-text">QR генератор!</h1>
+    <form method="POST" action="{% url 'task2:start_task2' %}">
+        {% csrf_token %}
+        <label>Введи ID товара:</label>
+        <input class="button" name="product_id" type="number" min="0" list="suggestions" required>
+        <datalist id="suggestions">
+            {% for id in suggested_ids %}
+            <option value="{{ id }}">
+                {% endfor %}
+        </datalist>
+        <button class="button" type="submit">Вперед!</button>
+    </form>
+    {% if link %}
+    <p>
+        Вот и ссылка: <a href={{ link }}>тык.</a>
+    </p>
+    {% endif %}
+    {% if error %}
+    <p>
+        {{ error }}
+    </p>
+    {% endif %}
+    {% if qr_code %}
+    {% qr_from_text link size="T" %}
+    {% endif %}
+</section>
+<div class="footer">
+    <p>К началу!</p>
+    <form method="get" action="{% url 'returnstart'%}">
+        <button class="button" type="submit">Назад</button>
+    </form>
+</div>
+</body>
+
+</html>
