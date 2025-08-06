@@ -30,18 +30,22 @@ class Employee:
         departmentINFOs = {}
         for dep in rawDepartmentList.get('result'):
             departmentINFOs[dep.get('ID')] = {
+                'NAME': dep.get('NAME'),
                 'PARENT': dep.get('PARENT'),
                 'UF_HEAD': dep.get('UF_HEAD')
             }
         users = []
         users_names = {}
         for user in rawUsers.get('result'):
-            users.append({
-                "ID": user.get('ID'),
-                "NAME": user.get('NAME'),
-                "LAST_NAME": user.get('LAST_NAME'),
-                "UF_DEPARTMENT": user.get('UF_DEPARTMENT')
-            })
+            ID_DEP = user.get('UF_DEPARTMENT')
+            for id in ID_DEP:
+                users.append({
+                    "ID": user.get('ID'),
+                    "NAME": user.get('NAME'),
+                    "LAST_NAME": user.get('LAST_NAME'),
+                    "UF_DEPARTMENT": id,
+                    "DEPARTMENT_NAME": departmentINFOs[str(id)].get('NAME')
+                })
             users_names[user.get('ID')] = {
                 "ID": user.get('ID'),
                 "NAME": user.get('NAME'),
@@ -49,10 +53,66 @@ class Employee:
             }
         calls_dict = cls.get_calls(but)
         for user in users:
-            user_parents = cls.get_parents(user, departmentINFOs, users_names)
+            user_parents = cls.get_parents_one_dep(user, departmentINFOs, users_names)
             user["PARENTS"] = user_parents
             user["CALLS_NUM"] = 0 if not calls_dict.get(user["ID"]) else calls_dict[user["ID"]]
         return users
+
+    @classmethod
+    def get_parents_one_dep(cls, user_info, departmentINFOs, names):
+        department = user_info.get('UF_DEPARTMENT', [])
+        user_parent_users = []
+        q = deque()
+        q.append(department)
+        visited_heads = set()
+        visited_deps = set()
+
+        while q:
+            department = q.popleft()
+            if department in visited_deps:
+                continue
+            dep_info = departmentINFOs.get(str(department), {})
+            head_id = dep_info.get("UF_HEAD")
+            parent_id = dep_info.get("PARENT")
+
+            if head_id:
+                visited_heads.add(head_id)
+                if head_id != user_info.get("ID"):
+                    user_parent_users.append(names[head_id])
+            if parent_id:
+                q.append(parent_id)
+        return user_parent_users
+
+    @classmethod
+    def get_parents(cls, user_info, departmentINFOs, names):
+        departments = user_info.get('UF_DEPARTMENT', [])
+        user_parent_users = []
+        q = deque(departments)
+        visited_heads = set()
+        visited_deps = set()
+
+        while q:
+            department = q.popleft()
+            if department in visited_deps:
+                continue
+            dep_info = departmentINFOs.get(str(department), {})
+            head_id = dep_info.get("UF_HEAD")
+            parent_id = dep_info.get("PARENT")
+
+            if head_id:
+                visited_heads.add(head_id)
+                if head_id != user_info.get("ID"):
+                    user_parent_users.append(head_id)
+            if parent_id:
+                q.append(parent_id)
+            parent = []
+            visited = set()
+            for i in range(len(user_parent_users)):
+                j = user_parent_users[len(user_parent_users) - i - 1]
+                if j in visited: continue
+                parent.append(names.get(str(j)))
+                visited.add(j)
+        return reversed(parent)
 
     @classmethod
     def get_parents(cls, user_info, departmentINFOs, names):
