@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Добавь доставку!</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}Добавь доставку!{% endblock %}
 
-<body>
+{% block content %}
   <h1 class="title-text">ДОБАВЬ ДОСТАВКУ!</h1>
   <section class="layout" align="center">
     <div class="quote-space">
@@ -27,6 +21,4 @@
     {% endfor %}
   </div>
   {% endif %}
-</body>
-
-</html>
+{% endblock %}

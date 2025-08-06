@@ -1,56 +1,41 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Топ</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}Топ{% endblock %}
 
-<body>
-    <h1 class="title-text">Топ 10 сделок!</h1>
-    <table class="top-table" border="1">
-        <tr>
-            <td>ID</td>
-            <td>НАЗВАНИЕ</td>
-            <td>CТАДИЯ СДЕЛКИ</td>
-            <td>СУММА</td>
-            <td>ВЕС ТОВАРА</td>
-            <td>ТИП ДОСТАВКИ</td>
-        </tr>
-        {% for deal in deals %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ deal.TITLE }}</td>
-            <td>{{ deal.STAGE_ID }}</td>
-            <td>{{ deal.OPPORTUNITY }}</td>
-            <td>{{ deal.UF_CRM_CARGO_WEIGHT }}</td>
-            {% if deal.UF_CRM_CARGO_TYPE == "1" %}
-              <td>Обычный</td>
-            {% elif deal.UF_CRM_CARGO_TYPE == "2" %}
-              <td>Хрупкий</td>
-            {% elif deal.UF_CRM_CARGO_TYPE == "3" %}
-              <td>Опасный</td>
-            {% else %}
-              <td>Не указано</td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
-    <form method="get" action="{% url 'task1:add_delivery' %}">
-        <button class="button" type="submit">Добавить сделку!</button>
-    </form>
-    <form method="get" action="{% url 'task1:start_task1' %}">
-        <button class="button" type="submit">На главную!</button>
-    </form>
-
-    <div class="footer">
-        <p>К началу!</p>
-        <form method="get" action="{% url 'returnstart'%}">
-            <button class="button" type="submit">Назад</button>
-        </form>
-    </div>
-</body>
-
-</html>
+{% block content %}
+<h1 class="title-text">Топ 10 сделок!</h1>
+<table class="top-table" border="1">
+    <tr>
+        <td>ID</td>
+        <td>НАЗВАНИЕ</td>
+        <td>CТАДИЯ СДЕЛКИ</td>
+        <td>СУММА</td>
+        <td>ВЕС ТОВАРА</td>
+        <td>ТИП ДОСТАВКИ</td>
+    </tr>
+    {% for deal in deals %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ deal.TITLE }}</td>
+        <td>{{ deal.STAGE_ID }}</td>
+        <td>{{ deal.OPPORTUNITY }}</td>
+        <td>{{ deal.UF_CRM_CARGO_WEIGHT }}</td>
+        {% if deal.UF_CRM_CARGO_TYPE == "1" %}
+        <td>Обычный</td>
+        {% elif deal.UF_CRM_CARGO_TYPE == "2" %}
+        <td>Хрупкий</td>
+        {% elif deal.UF_CRM_CARGO_TYPE == "3" %}
+        <td>Опасный</td>
+        {% else %}
+        <td>Не указано</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<form method="get" action="{% url 'task1:add_delivery' %}">
+    <button class="button" type="submit">Добавить сделку!</button>
+</form>
+<form method="get" action="{% url 'task1:start_task1' %}">
+    <button class="button" type="submit">На главную!</button>
+</form>
+{% endblock %}
