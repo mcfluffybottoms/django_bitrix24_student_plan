@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Топ</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<script src="//api.bitrix24.com/api/v1/"></script>
+<script src="{% static 'script/userwindow.js' %}"></script>
+
+<body>
+<h1 class="title-text">Список сотрудников!</h1>
+<table class="top-table" border="1">
+    <tr>
+        <td></td>
+        <td>Сотрудник</td>
+        <td>Руководители</td>
+        <td>Количество звонков за 24 ч</td>
+    </tr>
+    {% for employee in employees %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="#" class="users" data-user-id={{ employee.ID }}>{{ employee.NAME }} {{ employee.LAST_NAME }} ({{
+            employee.ID }})</a></td>
+        <td>
+            {% for parent in employee.PARENTS %}
+            <a href="#" class="users" data-user-id={{ parent.ID }}>{{ parent.NAME }} {{ parent.LAST_NAME }}</a> <br>
+            {% endfor %}
+        </td>
+        <td>{{ employee.CALLS_NUM }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form method="POST" action="{% url 'task3:workers' %}">
+    {% csrf_token %}
+    <label>Сколько звонков сгенерировать?</label>
+    <input class="button" name="number_of_calls" type="number" min="0" required>
+    <label>Им больше 24 часов?</label>
+    <input type="checkbox" name="old"/>
+    <button class="button" type="submit">Вперед!</button>
+</form>
+<br>
+{% if generated_calls %}
+Получили звонки:<br>
+{% for call in generated_calls %}
+<p>
+    ID: {{ call.USER_ID }};
+    INTERVAL_SECONDS: {{ call.INTERVAL_SECONDS }};
+    START_TIME: {{ call.START_TIME }};
+    END_TIME: {{ call.END_TIME }};
+    TYPE: {{ call.TYPE }};
+</p>
+{% endfor %}
+{% endif %}
+<div class="footer">
+    <p>К началу!</p>
+    <form method="get" action="{% url 'returnstart'%}">
+        <button class="button" type="submit">Назад</button>
+    </form>
+</div>
+</body>
+
+</html>
