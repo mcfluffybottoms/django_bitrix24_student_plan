@@ -18,14 +18,16 @@
     <tr>
         <td></td>
         <td>Сотрудник</td>
+        <td>Подразделение</td>
         <td>Руководители</td>
         <td>Количество звонков за 24 ч</td>
     </tr>
     {% for employee in employees %}
     <tr>
         <td>{{ forloop.counter }}</td>
-        <td><a href="#" class="users" data-user-id={{ employee.ID }}>{{ employee.NAME }} {{ employee.LAST_NAME }} ({{
-            employee.ID }})</a></td>
+        <td><a href="#" class="users" data-user-id={{ employee.ID }}>{{ employee.NAME }} {{ employee.LAST_NAME }}
+            ( {{ employee.ID }} )</a></td>
+        <td>{{ employee.DEPARTMENT_NAME }}</td>
         <td>
             {% for parent in employee.PARENTS %}
             <a href="#" class="users" data-user-id={{ parent.ID }}>{{ parent.NAME }} {{ parent.LAST_NAME }}</a> <br>
