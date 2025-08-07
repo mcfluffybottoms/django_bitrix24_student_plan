@@ -141,7 +141,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
-YANDEX_API_KEY = "c6f22ad5-dc94-4393-b1e7-3ee2069971a9"
+YANDEX_API_KEY = ""
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
