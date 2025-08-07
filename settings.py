@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'task1',
     'task2',
     'task3',
+    'task4',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,8 @@ STATICFILES_FINDERS = (
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles'),
 ]
+
+YANDEX_API_KEY = "yourkey"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

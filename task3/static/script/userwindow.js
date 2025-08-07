@@ -1,6 +1,5 @@
 BX24.init(
     function() {
-        console.log("INITIALIZING");
         const links = document.querySelectorAll(".users");
         links.forEach(function(link) {
             link.onclick = function(e) {

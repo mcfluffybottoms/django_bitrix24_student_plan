@@ -1,12 +1,73 @@
-import random
-from collections import deque
-from datetime import time, timedelta, timezone, datetime
-from zoneinfo import ZoneInfo
+import requests
 
-from settings import TIME_ZONE
+ADDRESS_FIELDS = [
+    "ENTITY_ID", "ADDRESS_1",
+    "CITY"
+]
 
+COMPANY_FIELDS = [
+    "ID", "TITLE", "ASSIGNED_BY_ID",
+    "LOGO"
+]
 
 class Map:
     @classmethod
-    def get_map(cls, but):
-        return
+    def get_full_address(cls, address):
+        address_list = []
+        for field in ADDRESS_FIELDS:
+            if address.get(field) and field != "ENTITY_ID":
+                address_list.append(address.get(field))
+        return ", ".join(address_list)
+        
+    @classmethod
+    def form_enquiry(cls, address, api_key):
+        base_url = "https://geocode-maps.yandex.ru/1.x/"
+        params = {
+            'apikey': api_key,
+            'geocode': address,
+            'lang': "ru_RU",
+            'format': 'json'
+        }
+        try:
+            response = requests.get(base_url, params=params)
+            response.raise_for_status()
+            data = response.json()
+            print()
+            positions = []
+            for member in data['response']['GeoObjectCollection']['featureMember']:
+                positions.append(member['GeoObject']['Point']['pos'].split(" "))
+            return positions
+        except requests.exceptions.RequestException as e:
+            print(f"Geocoding error: {e}")
+            return None
+        
+    @classmethod
+    def get_map_locations(cls, but, api_key):
+        companyList = but.call_api_method("crm.company.list",
+        {
+            "select": COMPANY_FIELDS
+        })
+        rawAddressList = but.call_api_method("crm.address.list",
+        {
+            "select": ADDRESS_FIELDS
+        })
+        if not companyList.get('result') or not rawAddressList.get('result'):
+            return None
+        addressList = {}
+        for address in rawAddressList.get("result"):
+            temp_dict = {}
+            temp_id = ''
+            for field in ADDRESS_FIELDS:
+                if field == 'ENTITY_ID':
+                    temp_id = address[field]
+                else:
+                    temp_dict[field] = address[field]
+            addressList[str(temp_id)] = temp_dict
+        
+        company_output_data = companyList.get('result')
+        for company in company_output_data:
+            address = cls.get_full_address(addressList[company['ID']])
+            coordinates = cls.form_enquiry(address, api_key)
+            company['ADDRESS'] = address
+            company['COORDINATES'] = coordinates
+        return company_output_data

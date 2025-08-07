@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}ИНтересные локации{% endblock %}
+{% block title %}Интересные локации{% endblock %}
+
+{% load static %}
+{% block code %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey={{ api_key }}&lang=ru_RU"  type="text/javascript"></script>
+<script>
+    window.staticUrls = {
+        imgNotFound: "{% static 'IMGNOTFOUND.png' %}"
+    };
+</script>
+<script src="{% static 'script/map.js' %}"></script>
+{% endblock code %}
+
 
 {% block content %}
-<section class="layout" align="center">
+<section class="img-layout" align="center">
     <h1 class="title-text">Привет, {{ username }}!</h1>
+    {% autoescape off %}
+    <div id="map" class="map" data-locations='{{ locations|safe }}'></div>
+    {% endautoescape %}
 </section>
 {% endblock %}

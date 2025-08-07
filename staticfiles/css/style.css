@@ -36,6 +36,11 @@ body {
   align-items: center;
 }
 
+.map {
+  width: 500px;
+  height: 500px;
+}
+
 .product-image {
   width: 300px;
 }
