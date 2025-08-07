@@ -16,7 +16,7 @@
 
 {% block content %}
 <section class="img-layout" align="center">
-    <h1 class="title-text">Привет, {{ username }}!</h1>
+    <h1 class="title-text">Карта компаний</h1>
     {% autoescape off %}
     <div id="map" class="map" data-locations='{{ locations|safe }}'></div>
     {% endautoescape %}

@@ -1,13 +1,15 @@
 import requests
 
+from settings import APP_SETTINGS
+
 ADDRESS_FIELDS = [
     "ENTITY_ID", "ADDRESS_1",
     "CITY"
 ]
 
 COMPANY_FIELDS = [
-    "ID", "TITLE", "ASSIGNED_BY_ID",
-    "LOGO"
+    "ID", "TITLE",
+    "LOGO", "COMPANY_TYPE"
 ]
 
 class Map:
@@ -32,7 +34,6 @@ class Map:
             response = requests.get(base_url, params=params)
             response.raise_for_status()
             data = response.json()
-            print()
             positions = []
             for member in data['response']['GeoObjectCollection']['featureMember']:
                 positions.append(member['GeoObject']['Point']['pos'].split(" "))
@@ -64,10 +65,18 @@ class Map:
                     temp_dict[field] = address[field]
             addressList[str(temp_id)] = temp_dict
         
+        print(but.call_api_method("crm.company.fields"))
         company_output_data = companyList.get('result')
         for company in company_output_data:
+            img_name = ''
+            if company.get('LOGO') and company.get('LOGO').get('downloadUrl'):
+                img_name = "".join(["https://", APP_SETTINGS.portal_domain, company['LOGO']['downloadUrl']])
+            print(img_name)
+            
             address = cls.get_full_address(addressList[company['ID']])
             coordinates = cls.form_enquiry(address, api_key)
             company['ADDRESS'] = address
             company['COORDINATES'] = coordinates
+            company['LOGO'] = img_name
+            print(company["COMPANY_TYPE"])
         return company_output_data

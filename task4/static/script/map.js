@@ -2,6 +2,13 @@ var map;
 
 ymaps.ready(init);
 
+const COMPANY_TYPE_PRESETS = {
+    "SUPPLIER": '#ccf15aff',
+    "COMPETITOR": '#ff0000',
+    "CUSTOMER":  '#29ce13ff',
+    "OTHER": '#000000ff',
+}
+
 function init() {
     map = new ymaps.Map("map", {
         center: [0, 0],
@@ -10,14 +17,22 @@ function init() {
     app_markers();
 }
 
-function create_GeoObject(coordinates, properties = {}) {
-    return new ymaps.GeoObject({
+function add_GeoObject(coordinates, properties = {}, company_type="OTHER") {
+    const color = COMPANY_TYPE_PRESETS[company_type] || '#000000ff';
+    const marker = new ymaps.GeoObject({
         geometry: {
             type: "Point",
             coordinates: [coordinates[1], coordinates[0]]
         },
         properties: properties,
+    }, {
+        preset: "islands#circleDotIcon",
+        iconColor: color,
+        draggable: false,
     });
+    if (marker) {
+        map.geoObjects.add(marker);
+    }
 }
 
 function app_markers() {
@@ -38,13 +53,10 @@ function app_markers() {
         }
         location.COORDINATES.forEach(coordinates => { // since GeoCoder returns several addresses
             if (coordinates && coordinates.length === 2) {
-                const marker = create_GeoObject(coordinates, {
+                add_GeoObject(coordinates, {
                     balloonContent: location.TITLE || 'Локация без имени',
                     hintContent: location.ADDRESS || ''
-                });
-                if (marker) {
-                    map.geoObjects.add(marker);
-                }
+                }, location.COMPANY_TYPE);
             } else {
                 var warning = "location.COORDINATES doesnt't exist."
                 if(coordinates) warning = "location.COORDINATES exists."
@@ -55,7 +67,8 @@ function app_markers() {
     if (locations.length > 0) {
         if(!map.geoObjects) return;
         map.setBounds(map.geoObjects.getBounds(), {
-            checkZoomRange: true
+            checkZoomRange: true,
+            zoomMargin: 50
         });
     }
 }
