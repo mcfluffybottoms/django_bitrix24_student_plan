@@ -17,8 +17,32 @@ function init() {
     app_markers();
 }
 
-function add_GeoObject(coordinates, properties = {}, company_type="OTHER") {
+function add_GeoObject_with_Images(coordinates, properties = {}, logo="") {
+    const marker = new ymaps.GeoObject({
+        geometry: {
+            type: "Point",
+            coordinates: [coordinates[1], coordinates[0]]
+        },
+        properties: properties,
+    }, {
+        preset: 'islands#blueDotIcon',
+        draggable: false,
+        iconLayout: 'default#image',
+        iconImageHref: logo || window.staticUrls.imgNotFound,
+        iconImageSize: [20, 20],
+        iconImageOffset: [-10, -20],
+    });
+    if (marker) {
+        map.geoObjects.add(marker);
+    }
+}
+
+function add_GeoObject(coordinates, properties = {}, company_type="OTHER", logo="") {
     const color = COMPANY_TYPE_PRESETS[company_type] || '#000000ff';
+    const logoIMG = logo 
+        ? `<img src="${logo}" style="max-width:200px;max-height:100px; align="center">` 
+        : `<img src="${window.staticUrls.imgNotFound}" style="max-width:200px;max-height:100px; align="center">`;
+    properties["balloonContent"] = logoIMG;
     const marker = new ymaps.GeoObject({
         geometry: {
             type: "Point",
@@ -53,10 +77,17 @@ function app_markers() {
         }
         location.COORDINATES.forEach(coordinates => { // since GeoCoder returns several addresses
             if (coordinates && coordinates.length === 2) {
+                //load points
                 add_GeoObject(coordinates, {
-                    balloonContent: location.TITLE || 'Локация без имени',
-                    hintContent: location.ADDRESS || ''
-                }, location.COMPANY_TYPE);
+                    balloonContentHeader: location.TITLE || 'Локация без имени',
+                    hintContent: location.ADDRESS || '',
+
+                }, location.COMPANY_TYPE, location.LOGO);
+                // load images as logos
+                // add_GeoObject_with_Images(coordinates, {
+                //     balloonContent: location.TITLE || 'Локация без имени',
+                //     hintContent: location.ADDRESS || ''
+                // }, location.LOGO);
             } else {
                 var warning = "location.COORDINATES doesnt't exist."
                 if(coordinates) warning = "location.COORDINATES exists."

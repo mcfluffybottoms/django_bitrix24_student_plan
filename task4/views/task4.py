@@ -1,7 +1,6 @@
-from datetime import datetime, timedelta
 import json
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from integration_utils.bitrix24.bitrix_user_auth.main_auth import main_auth
 from settings import YANDEX_API_KEY
