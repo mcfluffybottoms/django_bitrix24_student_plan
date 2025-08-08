@@ -1,8 +1,12 @@
 import os
+from tempfile import NamedTemporaryFile
+from wsgiref.util import FileWrapper
 
+from django.http import HttpResponse, Http404
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 
+import settings
 from integration_utils.bitrix24.bitrix_user_auth.main_auth import main_auth
 from task5.models.contact_loader import load_data, get_data
 from task5.models.forms import UploadFileForm, ExportFileForm, get_format_from_form
@@ -38,23 +42,22 @@ def start_task5(request):
             export_form = ExportFileForm(request.POST)
             if export_form.is_valid():
                 file_format = get_format_from_form(export_form)
-                export_result = get_data(but, file_format)
-                if export_result.get('done'):
-                    context['message'] = "Файл был удачно экспортирован!"
-                else:
-                    context['message'] = export_result.get('error')
+                with NamedTemporaryFile(suffix=f'.{file_format}', delete=False) as result_file:
+                    export_result = get_data(but, file_format, result_file)
+                    if not export_result.get('done'):
+                        context['message'] = export_result.get('error', 'Произошла ошибка при экспорте.')
+                        return render(request, 'task5.html', context)
+                    wrapper = FileWrapper(result_file)
+                    response = HttpResponse(wrapper, content_type='application/octet-stream')
+                    response['Content-Disposition'] = f'attachment; filename="export.{file_format}"'
+                    return response
+                response = HttpResponse(wrapper, content_type='application/octet-stream')
+                response['Content-Disposition'] = f'attachment; filename="export{file_format}"'
+                return response
+
     else:
         import_form = UploadFileForm()
         export_form = ExportFileForm()
     context['import_form'] = import_form
     context['export_form'] = export_form
     return render(request, 'task5.html', context)
-#
-# @main_auth(on_cookies=True)
-# def download(request):
-#     file_path = os.path.join(settings., file_name)
-#     if os.path.exists(file_path):
-#         response = FileResponse(open(file_path, 'rb'))
-#         response['Content-Disposition'] = f'attachment; filename="{file_name}"'
-#         return response
-#     return HttpResponse("File not found", status=404)

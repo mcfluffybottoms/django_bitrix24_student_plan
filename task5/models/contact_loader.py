@@ -1,8 +1,10 @@
+import os
 import traceback
 from urllib.parse import urlparse
 import pandas as pd
 from os.path import splitext
 
+import settings
 from integration_utils.bitrix24.functions.batch_api_call import BatchResultDict
 
 
@@ -13,7 +15,7 @@ def check_if_email(s):
     right_part = email_parts[1].split(".")
     if len(right_part) != 2 or not right_part[0] or not right_part[1]:
         return None
-    return s
+    return s.strip()
 
 
 def iter_BatchResultDict(dict: BatchResultDict):  # type: () -> Iterable[Tuple[str, Any]]
@@ -47,7 +49,7 @@ class BaseContactLoader:
         add_contacts_command = "crm.contact.add"
         contacts_queue = []
         for index, row in self.df.iterrows():
-            parsed_phone_numbers = [phone for phone in row['PHONE'].split(',')]
+            parsed_phone_numbers = [phone.strip() for phone in row['PHONE'].split(',')]
             parsed_emails = [check_if_email(phone) for phone in row['EMAIL'].split(',')]
             if None in parsed_emails:
                 parsed_emails.remove(None)
@@ -126,10 +128,10 @@ class BaseContactLoader:
         self.df = pd.DataFrame.from_dict(contact_data)
         return self.df
 
-    def load_data(self):
+    def load_data(self, temp_container):
         raise NotImplementedError()
 
-    def unload_data(self):
+    def unload_data(self, temp_container):
         raise NotImplementedError()
 
     def prettify_dataframe(self):
@@ -143,10 +145,8 @@ class CsvContactLoader(BaseContactLoader):
         self.prettify_dataframe()
         return self.df
 
-    def unload_data(self):
-        file_path = 'contacts.csv'
-        self.df.to_csv('contacts.csv', index=False)
-        return file_path
+    def unload_data(self, temp_container):
+        self.df.to_csv(temp_container, index=False)
 
 
 class XlsxContactLoader(BaseContactLoader):
@@ -155,17 +155,13 @@ class XlsxContactLoader(BaseContactLoader):
         self.prettify_dataframe()
         return self.df
 
-    def unload_data(self):
-        file_path = 'contacts.csv'
-        self.df.to_excel('contacts.csv', index=False)
-        return file_path
-
+    def unload_data(self, temp_container):
+        self.df.to_excel(temp_container, index=False)
 
 AVAILABLE_EXTENSIONS = {
     ".csv": CsvContactLoader,
     ".xlsx": XlsxContactLoader,
 }
-
 
 def load_data(but, url):
     parsed = urlparse(url)
@@ -183,13 +179,13 @@ def load_data(but, url):
         return {"done": False, "error": "Type not supported."};
 
 
-def get_data(but, ext):
+def get_data(but, ext, temp_container):
     if ext.lower() in AVAILABLE_EXTENSIONS:
         content_loader = AVAILABLE_EXTENSIONS[ext.lower()]()
         try:
             content_loader.export_from_bitrix(but)
-            file_path = content_loader.unload_data()
-            return {"done": True, "file_path": file_path};
+            content_loader.unload_data(temp_container)
+            return {"done": True};
         except Exception as e:
             return {"done": False, "error": str(e)};
     else:
