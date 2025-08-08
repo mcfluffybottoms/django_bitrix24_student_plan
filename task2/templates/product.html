@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Товар</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}Товар{% endblock %}
 
-<body>
+{% load static %}
+{% block content %}
 <section class="img-layout">
     <div class="publication-date">
         <h2>{{ product.NAME }}</h2>
@@ -30,6 +25,4 @@
         Дата публикации: {{ product.DATE_CREATE }}
     </div>
 </section>
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}База{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+{% block code %}{% endblock code %}
+
+<body>
+{% block content %}{% endblock content %}
+<div class="footer">
+    <p>К началу!</p>
+    <form method="get" action="{% url 'returnstart'%}">
+        <button class="button" type="submit">Назад</button>
+    </form>
+</div>
+</body>
+
+</html>

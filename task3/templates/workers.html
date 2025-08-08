@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Топ</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block title %}Список сотрудников!{% endblock %}
 
-</head>
-
+{% load static %}
+{% block code %}
 <script src="//api.bitrix24.com/api/v1/"></script>
 <script src="{% static 'script/userwindow.js' %}"></script>
+{% endblock code %}
 
-<body>
+{% block content %}
 <h1 class="title-text">Список сотрудников!</h1>
 <table class="top-table" border="1">
     <tr>
@@ -58,12 +54,4 @@
 </p>
 {% endfor %}
 {% endif %}
-<div class="footer">
-    <p>К началу!</p>
-    <form method="get" action="{% url 'returnstart'%}">
-        <button class="button" type="submit">Назад</button>
-    </form>
-</div>
-</body>
-
-</html>
+{% endblock %}

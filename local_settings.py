@@ -22,8 +22,8 @@ APP_SETTINGS = LocalSettingsClass(
     app_name='is_demo',
     salt='wefiewofioiI(IF(Eufrew8fju8ewfjhwkefjlewfjlJFKjewubhybfwybgybHBGYBGF',
     secret_key='wefewfkji4834gudrj.kjh237tgofhfjekewf.kjewkfjeiwfjeiwjfijewf',
-    application_bitrix_client_id='local.688a20397df7a5.68994663',
-    application_bitrix_client_secret='YDM0wVgDUAYMWm4RfIESccMnDWwctFEtzyMgRaUUN7MjWdLWf3',
+    application_bitrix_client_id='local',
+    application_bitrix_client_secret='secret',
     application_index_path='/',
 )
 

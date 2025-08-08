@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'task1',
     'task2',
     'task3',
+    'task4',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'base_files', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,17 +141,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
+YANDEX_API_KEY = ""
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 from integration_utils.iu_logger.classes.base_logger import BaseLogger
 
 
+# Moved MuteLogger to here - no need to edit integration_utils
 class MuteLogger(BaseLogger):
     def log(self, log_level, log_type, message=None):
         pass
-
-
 ilogger = MuteLogger()
 
 try:
@@ -159,7 +161,6 @@ except ImportError:
     from warnings import warn
 if not APP_SETTINGS:
     from integration_utils.bitrix24.local_settings_class import LocalSettingsClass
-
     APP_SETTINGS = LocalSettingsClass(
         # portal_domain='',
         app_domain='is_demo.it-solution.ru',

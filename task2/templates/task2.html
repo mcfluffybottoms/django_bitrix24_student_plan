@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
 {% load qr_code %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Привет!</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}Привет!{% endblock %}
 
-<body>
+{% block content %}
 <section class="layout" align="center">
     <h1 class="title-text">QR генератор!</h1>
     <form method="POST" action="{% url 'task2:start_task2' %}">
@@ -37,12 +31,4 @@
     {% qr_from_text link size="T" %}
     {% endif %}
 </section>
-<div class="footer">
-    <p>К началу!</p>
-    <form method="get" action="{% url 'returnstart'%}">
-        <button class="button" type="submit">Назад</button>
-    </form>
-</div>
-</body>
-
-</html>
+{% endblock %}
