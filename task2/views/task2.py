@@ -1,17 +1,13 @@
 import urllib
 
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
+from django.shortcuts import render
 from integration_utils.bitrix24.bitrix_user_auth.main_auth import main_auth
-from integration_utils.vendors.telegram import InputFile
 from local_settings import NGROK_URL
 from task2.models.models import Product
-import requests
 from django.http import HttpResponse
 
 
 @main_auth(on_cookies=True)
-@require_http_methods(["GET", "POST"])
 def start_task2(request):
     but = request.bitrix_user_token
     context = {

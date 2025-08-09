@@ -105,44 +105,13 @@ class Employee:
                     user_parent_users.append(head_id)
             if parent_id:
                 q.append(parent_id)
-            parent = []
-            visited = set()
-            for i in range(len(user_parent_users)):
-                j = user_parent_users[len(user_parent_users) - i - 1]
-                if j in visited: continue
-                parent.append(names.get(str(j)))
-                visited.add(j)
-        return reversed(parent)
-
-    @classmethod
-    def get_parents(cls, user_info, departmentINFOs, names):
-        departments = user_info.get('UF_DEPARTMENT', [])
-        user_parent_users = []
-        q = deque(departments)
-        visited_heads = set()
-        visited_deps = set()
-
-        while q:
-            department = q.popleft()
-            if department in visited_deps:
-                continue
-            dep_info = departmentINFOs.get(str(department), {})
-            head_id = dep_info.get("UF_HEAD")
-            parent_id = dep_info.get("PARENT")
-
-            if head_id:
-                visited_heads.add(head_id)
-                if head_id != user_info.get("ID"):
-                    user_parent_users.append(head_id)
-            if parent_id:
-                q.append(parent_id)
-            parent = []
-            visited = set()
-            for i in range(len(user_parent_users)):
-                j = user_parent_users[len(user_parent_users) - i - 1]
-                if j in visited: continue
-                parent.append(names.get(str(j)))
-                visited.add(j)
+        parent = []
+        visited = set()
+        for i in range(len(user_parent_users)):
+            j = user_parent_users[len(user_parent_users) - i - 1]
+            if j in visited: continue
+            parent.append(names.get(str(j)))
+            visited.add(j)
         return reversed(parent)
 
     @classmethod

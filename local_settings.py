@@ -18,14 +18,14 @@ OPEN_AI_API_KEY = 'your-api-key'
 YANDEX_API_KEY = ""
 
 APP_SETTINGS = LocalSettingsClass(
-    portal_domain='',
-    app_domain='',
-    app_name='',
-    salt='',
-    secret_key='',
-    application_bitrix_client_id='',
-    application_bitrix_client_secret='',
-    application_index_path='',
+    portal_domain='b24-fzh6i6.bitrix24.ru',
+    app_domain='127.0.0.1:8000',
+    app_name='is_demo',
+    salt='wefiewofioiI(IF(Eufrew8fju8ewfjhwkefjlewfjlJFKjewubhybfwybgybHBGYBGF',
+    secret_key='wefewfkji4834gudrj.kjh237tgofhfjekewf.kjewkfjeiwfjeiwjfijewf',
+    application_bitrix_client_id='local.688a20397df7a5.68994663',
+    application_bitrix_client_secret='YDM0wVgDUAYMWm4RfIESccMnDWwctFEtzyMgRaUUN7MjWdLWf3',
+    application_index_path='/',
 )
 
 DOMAIN = "56218ef983f3-8301993767665431593.ngrok-free.app"

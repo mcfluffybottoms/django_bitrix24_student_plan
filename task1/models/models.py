@@ -2,9 +2,9 @@ from django.db import models
 from django import forms
 
 CARGO_TYPE_CHOICES = [
-    (1, "Обычный груз"),
-    (2, "Хрупкий груз"),
-    (3, "Опасный груз"),
+    (0, "Обычный груз"),
+    (1, "Хрупкий груз"),
+    (2, "Опасный груз"),
 ]
 
 
@@ -61,7 +61,8 @@ class DeliveryForm(forms.Form):
         }
     )
 
-class Delivery():
+
+class Delivery:
     @classmethod
     def add_fields(cls, but):
         try:
@@ -84,12 +85,14 @@ class Delivery():
                 "FIELD_NAME": "CARGO_WEIGHT"
 
             }
-            but.call_api_method("crm.deal.userfield.add", field_cargo_type)
-            but.call_api_method("crm.deal.userfield.add", field_cargo_weight)
+            if not has_type:
+                but.call_api_method("crm.deal.userfield.add", field_cargo_type)
+            if not has_weight:
+                but.call_api_method("crm.deal.userfield.add", field_cargo_weight)
 
         except Exception as e:
             print(f"Failed to add fields: {e}")
-            raise
+            raise e
 
     @classmethod
     def get_10_delivery_list(cls, but):
@@ -100,7 +103,6 @@ class Delivery():
                    'ID',
                    'TITLE',
                    'STAGE_ID',
-                   #'CURRENCY_ID',
                    'OPPORTUNITY',
                    'UF_CRM_CARGO_WEIGHT',
                    'UF_CRM_CARGO_TYPE'
