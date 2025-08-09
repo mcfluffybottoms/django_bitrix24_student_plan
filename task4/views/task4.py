@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render
 
 from integration_utils.bitrix24.bitrix_user_auth.main_auth import main_auth
-from settings import YANDEX_API_KEY
+from local_settings import YANDEX_API_KEY
 from task4.models.models import Map
 
 

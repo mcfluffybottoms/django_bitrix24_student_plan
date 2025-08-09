@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Интересные локации{% endblock %}
+
+{% load static %}
+{% block code %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey={{ api_key }}&lang=ru_RU" type="text/javascript"></script>
+<script>
+    window.staticUrls = {
+        imgNotFound: "{% static 'IMGNOTFOUND.png' %}"
+    };
+</script>
+<script src="{% static 'script/map.js' %}"></script>
+{% endblock code %}
+
+
+{% block content %}
+<section class="img-layout" align="center">
+    <h1 class="title-text">Импорт и экспорт контактов</h1>
+    <section class="layout" align="center">
+        <div class="quote-space">
+            <form action="{% url 'task5:start_task5' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ import_form.as_p }}
+                <button class="button" type="submit" name="import">Импорт</button>
+            </form>
+            <hr class="add-form-container">
+            <form action="{% url 'task5:start_task5' %}" method="post">
+                {% csrf_token %}
+                {{ export_form.as_p }}
+                <button class="button" type="submit" name="export">Экспортировать все контакты!</button>
+            </form>
+        </div>
+        <div class="quote-space">
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+        </div>
+    </section>
+</section>
+{% endblock %}
