@@ -1,8 +1,5 @@
 from django.shortcuts import render, redirect
-
 from integration_utils.bitrix24.bitrix_user_auth.main_auth import main_auth
-from django.conf import settings
-
 from task1.models.models import Delivery, DeliveryForm
 
 

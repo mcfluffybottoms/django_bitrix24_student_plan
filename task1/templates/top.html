@@ -20,11 +20,11 @@
         <td>{{ deal.STAGE_ID }}</td>
         <td>{{ deal.OPPORTUNITY }}</td>
         <td>{{ deal.UF_CRM_CARGO_WEIGHT }}</td>
-        {% if deal.UF_CRM_CARGO_TYPE == "1" %}
+        {% if deal.UF_CRM_CARGO_TYPE == "0" %}
         <td>Обычный</td>
-        {% elif deal.UF_CRM_CARGO_TYPE == "2" %}
+        {% elif deal.UF_CRM_CARGO_TYPE == "1" %}
         <td>Хрупкий</td>
-        {% elif deal.UF_CRM_CARGO_TYPE == "3" %}
+        {% elif deal.UF_CRM_CARGO_TYPE == "2" %}
         <td>Опасный</td>
         {% else %}
         <td>Не указано</td>

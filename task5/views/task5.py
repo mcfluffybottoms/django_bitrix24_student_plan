@@ -47,7 +47,8 @@ def start_task5(request):
                     if not export_result.get('done'):
                         context['message'] = export_result.get('error', 'Произошла ошибка при экспорте.')
                         return render(request, 'task5.html', context)
-                    wrapper = FileWrapper(result_file)
+                with open(result_file.name, 'rb') as f:
+                    wrapper = FileWrapper(f)
                     response = HttpResponse(wrapper, content_type='application/octet-stream')
                     response['Content-Disposition'] = f'attachment; filename="export.{file_format}"'
                     return response

@@ -34,6 +34,7 @@ class BaseContactLoader:
         self.df = None
 
     def set_lead_row(self):
+        print(self.df)
         if self.df is None:
             return None
         if len(self.df.columns) != len(self.REQUIRED_FIELDS):
@@ -141,17 +142,18 @@ class BaseContactLoader:
 
 class CsvContactLoader(BaseContactLoader):
     def load_data(self):
-        self.df = pd.read_csv(self.file, delimiter=';')
+        self.df = pd.read_csv(self.file, delimiter=';', header=None)
         self.prettify_dataframe()
         return self.df
 
     def unload_data(self, temp_container):
+        print(self.df)
         self.df.to_csv(temp_container, index=False)
 
 
 class XlsxContactLoader(BaseContactLoader):
     def load_data(self):
-        self.df = pd.read_excel(self.file)
+        self.df = pd.read_excel(self.file, header=None)
         self.prettify_dataframe()
         return self.df
 
